@@ -59,7 +59,7 @@
             <div class="w-full md:1/2 p-2">
               <div class="form__field mb-6">
                 <input
-                  type="number"
+                  type="text"
                   class="form__input"
                   placeholder="&nbsp;"
                   v-model="material"
@@ -71,7 +71,7 @@
             <div class="w-full md:1/2 p-2">
               <div class="form__field mb-6">
                 <input
-                  type="number"
+                  type="text"
                   class="form__input"
                   placeholder="&nbsp;"
                   v-model="countryOrigin"
@@ -109,34 +109,17 @@
               <div
                 class="p-3 mb-3 border border-solid border-darkColor bg-whiteColor"
               >
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="scales" name="scales" />
-                  <label for="scales">Scales</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="x" name="x" />
-                  <label for="x">x</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="y" name="y" />
-                  <label for="y">y</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="z" name="z" />
-                  <label for="z">z</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="q" name="q" />
-                  <label for="q">q</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="w" name="w" />
-                  <label for="w">w</label>
+                <div
+                  v-for="cat in categories"
+                  :key="cat._id"
+                  class="custom__checkbox"
+                >
+                  <input
+                    type="checkbox"
+                    :id="cat.category"
+                    :name="cat.category"
+                  />
+                  <label :for="cat.category">{{ cat.category }}</label>
                 </div>
               </div>
             </div>
@@ -146,34 +129,17 @@
               <div
                 class="p-3 mb-3 border border-solid border-darkColor bg-whiteColor"
               >
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="scales" name="scales" />
-                  <label for="scales">Scales</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="x" name="x" />
-                  <label for="x">x</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="y" name="y" />
-                  <label for="y">y</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="z" name="z" />
-                  <label for="z">z</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="q" name="q" />
-                  <label for="q">q</label>
-                </div>
-
-                <div class="custom__checkbox">
-                  <input type="checkbox" id="w" name="w" />
-                  <label for="w">w</label>
+                <div
+                  v-for="brand in brands"
+                  :key="brand._id"
+                  class="custom__checkbox"
+                >
+                  <input
+                    type="checkbox"
+                    :id="brand.title"
+                    :name="brand.title"
+                  />
+                  <label :for="brand.title">{{ brand.title }}</label>
                 </div>
               </div>
             </div>
@@ -185,7 +151,8 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
+import { useStore } from "vuex";
 
 import AdminTitle from "../AdminTitle.vue";
 import AdminCancelButton from "../AdminCancelButton.vue";
@@ -196,6 +163,8 @@ export default {
   },
 
   setup() {
+    const store = useStore();
+
     const tabs = reactive(["Categories", "Brands"]);
     const component = ref("Categories");
     const currentTab = ref(0);
@@ -208,12 +177,27 @@ export default {
       return tabs[currentTab.value];
     });
 
+    const categories = computed(() => {
+      return store.getters["categories/getAllCategories"];
+    });
+
+    const brands = computed(() => {
+      return store.getters["brands/getAllBrands"];
+    });
+
+    onMounted(() => {
+      store.dispatch("categories/fetchAllCategories");
+      store.dispatch("brands/fetchAllBrands");
+    });
+
     return {
       tabs,
       currentTab,
       component,
       selectedTab,
       activeTab,
+      categories,
+      brands,
     };
   },
 };

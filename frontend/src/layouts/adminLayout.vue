@@ -4,7 +4,7 @@
     <div class="w-full">
       <AdminHeader />
       <div
-        class=" bg-greyColor h-auto lg:transform lg:-translate-y-3 lg:rounded-l-xl"
+        class=" bg-greyColor h-screen lg:transform lg:-translate-y-3 lg:rounded-l-xl "
       >
         <Admin />
       </div>
