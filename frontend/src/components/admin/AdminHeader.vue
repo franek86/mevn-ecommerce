@@ -1,6 +1,6 @@
 <template>
   <header
-    class=" bg-yellowLight w-full grid grid-cols-2 lg:grid-cols-3 gap-4 py-4 px-2 lg:px-10 lg:py-6 "
+    class=" bg-yellowLight w-full grid grid-cols-2 lg:grid-cols-3 gap-4 py-4 px-2 lg:px-10 lg:py-6"
   >
     <div class="lg:col-span-2">
       <AdminSearch />

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed lg:static bottom-0 w-full lg:w-52 lg:h-screen">
+  <div class="fixed lg:static bottom-0 w-full lg:w-52 lg:h-auto z-10">
     <nav
       class=" bg-yellowLight flex lg:flex-col lg:h-full justify-center items-center lg:px-4"
     >
