@@ -1,17 +1,11 @@
 <template>
   <div>
-    <AdminTitle title="Brands" />
-    <h1>Admin brands</h1>
+    <router-view> </router-view>
   </div>
 </template>
 
 <script>
-import AdminTitle from "./AdminTitle.vue";
-export default {
-  components: {
-    AdminTitle,
-  },
-};
+export default {};
 </script>
 
 <style></style>

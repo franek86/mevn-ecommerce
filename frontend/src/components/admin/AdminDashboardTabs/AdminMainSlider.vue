@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AdminCreateButton btnText="Create slide" btnUrl="create-slider" />
+    <AdminCreateButton btnText="Add slide" btnUrl="create-slider" />
 
     <h1 class=" text-2xl text-center" v-if="sliders.length === 0">
       No slider for now. Create one.
@@ -45,7 +45,17 @@
               </template>
             </the-modal>
 
-            <div class=" cursor-pointer" @click="openModal(slide._id)">
+            <!-- //EDIT BUTTON -->
+            <div class=" cursor-pointer" @click="editSlide(slide._id)">
+              <div class="btn__edit">
+                edit
+              </div>
+            </div>
+
+            <div
+              class="flex justify-center items-center cursor-pointer"
+              @click="openModal(slide._id)"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6"
@@ -61,33 +71,15 @@
                 />
               </svg>
             </div>
-            <!-- //EDIT BUTTON -->
-
-            <div class=" cursor-pointer" @click="editSlide(slide._id)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#9aa084"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </div>
           </div>
           <div
-            class="flex items-end  h-48 bg-cover"
+            class="flex items-end  h-48 bg-cover shadow-lg"
             :style="{
               backgroundImage: `url(http://localhost:5000/${slide.sliderImage})`,
             }"
           >
             <p
-              class="text-center uppercase w-full "
+              class="text-center uppercase w-full p-2.5"
               :class="
                 slide.titleColor
                   ? 'text-whiteColor bg-darkColor'

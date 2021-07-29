@@ -26,7 +26,7 @@
     <p v-if="successMsg">{{ successMsg }}</p>
 
     <div class="lg:w-1/2">
-      <form @submit.prevent="editSlide">
+      <form @submit.prevent="editSlide" enctype="multipart/form-data">
         <div class="flex flex-col">
           <div class="flex mb-3 h-full" v-if="!selectedImage">
             <p>Edit image</p>
@@ -67,7 +67,7 @@
             type="text"
             class="form__input"
             placeholder="&nbsp;"
-            v-model="title"
+            v-model="slideValues.title"
           />
 
           <span class="form__label"> {{ slideValues.title }}</span>
@@ -113,6 +113,8 @@ export default {
     const imageName = ref("");
     const selectedImage = ref(null);
     const chooseTitleColor = ref(false);
+
+    const image = ref("");
     const successMsg = ref("");
 
     const id = route.params.id;
@@ -120,13 +122,15 @@ export default {
     const editSlide = () => {
       let data = new FormData();
 
-      data.append("title", title.value);
+      data.append("title", slideValues.value.title);
       data.append("sliderImage", selectedImage.value);
       data.append("titleColor", chooseTitleColor.value);
+      data.append("oldImage", slideValues.value.sliderImage);
+
       store
         .dispatch("slider/editSlide", data)
         .then(() => {
-          successMsg.value = "Upated";
+          successMsg.value = "Updated";
 
           setTimeout(() => {
             router.push("/admin/dashboard/sliders");
@@ -151,6 +155,7 @@ export default {
     return {
       title,
       imageName,
+      image,
       selectedImage,
       onImageSelect,
       editSlide,

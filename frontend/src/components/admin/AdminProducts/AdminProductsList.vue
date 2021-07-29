@@ -3,7 +3,7 @@
     <AdminTitle title="Products" />
     <div class="px-6">
       <AdminCreateButton
-        btnText="Create product"
+        btnText="Add product"
         btnUrl="/admin/products/create-product"
       />
       <div>
@@ -17,46 +17,101 @@
           </select>
         </div>
 
-        <table class="w-full whitespace-nowrap">
+        <table class="w-full whitespace-nowrap shadow-lg">
           <thead class=" bg-yellowLight">
             <tr class="text-left font-bold uppercase text-xs text-greenColor">
-              <td class=" border p-2 "></td>
-              <td class=" border p-2 ">Sku</td>
-              <td class=" border p-2 ">Title</td>
-              <td class=" border p-2 ">Price</td>
-              <td class=" border p-2 ">In stock</td>
-              <td class=" border p-2 ">Manage</td>
+              <td class=" border-b border-solid p-3 ">#</td>
+              <td class=" border-b border-solid p-3 ">Sku</td>
+              <td class=" border-b border-solid p-3 ">Title</td>
+              <td class=" border-b border-solid p-3 ">Price</td>
+              <td class=" border-b border-solid p-3 ">In stock</td>
+              <td class=" border-b border-solid p-3 ">Manage</td>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody class=" bg-whiteColor">
             <tr v-for="(product, index) in products" :key="product._id">
-              <td class=" border border-greenColor p-2">{{ index + 1 }}</td>
-              <td class=" border border-greenColor p-2">{{ product.sku }}</td>
-              <td class=" border border-greenColor p-2 ">
+              <td class=" border-b border-solid border-greyColor p-3">
+                {{ index + 1 }}
+              </td>
+              <td class=" border-b border-solid border-greyColor p-3">
+                {{ product.sku }}
+              </td>
+              <td class=" border-b border-solid border-greyColor p-3 ">
                 {{ product.title }}
               </td>
-              <td class=" border border-greenColor p-2">
+              <td class=" border-b border-solid border-greyColor p-3">
                 {{ product.price }}
               </td>
-              <td class=" border border-greenColor p-2">
+              <td class=" border-b border-solid border-greyColor p-3">
                 {{ product.inStock }}
               </td>
-              <td class=" border border-greenColor p-2">
-                <router-link
-                  :to="`products/product/${product._id}`"
-                  class="p-2 bg-greenColor mr-2 text-xs uppercase text-whiteColor cursor-pointer hover:opacity-50 transition-all"
-                  >view</router-link
-                >
-                <router-link
-                  :to="`products/edit-product/${product._id}`"
-                  class="p-2 bg-orangeColor mr-2 text-xs uppercase text-whiteColor cursor-pointer hover:opacity-50 transition-all"
-                  >edit</router-link
-                >
-                <span
-                  class="p-2 bg-redColor mr-2 text-xs uppercase text-whiteColor cursor-pointer hover:opacity-50 transition-all"
-                  >delete</span
-                >
+              <td class="flex border-b border-solid border-greyColor p-3">
+                <the-tooltip text="View">
+                  <router-link
+                    :to="`products/product/${product._id}`"
+                    class="px-2 hover:opacity-70"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="#e09270"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      /></svg
+                  ></router-link>
+                </the-tooltip>
+
+                <the-tooltip text="Edit">
+                  <router-link
+                    :to="`products/edit-product/${product._id}`"
+                    class="px-2 hover:opacity-70"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="#9aa084"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
+                  </router-link>
+                </the-tooltip>
+
+                <the-tooltip text="Delete">
+                  <span class="px-2 hover:opacity-70"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="#EF4444"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      /></svg
+                  ></span>
+                </the-tooltip>
               </td>
             </tr>
           </tbody>
@@ -69,6 +124,8 @@
 </template>
 
 <script>
+import TheTooltip from "../../TheTooltip.vue";
+
 import AdminTitle from "../AdminTitle.vue";
 import AdminCreateButton from "../AdminCreateButton.vue";
 
@@ -78,6 +135,7 @@ import { computed, onMounted } from "vue";
 // import currencyFormat from "../../helpers/currencyFormat";
 export default {
   components: {
+    TheTooltip,
     AdminTitle,
     AdminCreateButton,
   },

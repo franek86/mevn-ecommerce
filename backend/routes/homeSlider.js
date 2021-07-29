@@ -19,7 +19,7 @@ router.post(
   protect,
   admin,
 
-  upload.fields([{ name: "sliderImage", maxCount: 1 }]),
+  upload.single("sliderImage"),
   homesliderController.createSlider
 );
 
@@ -30,7 +30,7 @@ router.put(
   "/:id",
   protect,
   admin,
-  upload.fields([{ name: "sliderImage", maxCount: 1 }]),
+  upload.single("sliderImage"),
   homesliderController.updateSlider
 );
 

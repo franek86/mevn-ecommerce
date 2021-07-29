@@ -14,6 +14,12 @@ button:focus {
   outline: none;
 }
 
+input:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid #242424;
+  background-color: #f4f4f4;
+}
+
 .form__field {
   @apply relative w-full;
 }
@@ -23,15 +29,19 @@ button:focus {
 }
 
 .form__input {
-  @apply block w-full border border-darkColor px-2 py-2;
+  @apply block w-full border border-lightGrey px-2 py-2;
 }
 
-.form__input:focus {
+/* .form__input:focus {
   @apply outline-none;
-}
+} */
 
 .btn__arrow {
   @apply bg-darkColor font-medium uppercase text-greyColor py-3 px-6 w-40 relative;
+}
+
+.btn__edit {
+  @apply bg-lightGreen px-4 py-2 text-whiteColor uppercase text-xs rounded-2xl hover:opacity-70;
 }
 
 .btn__arrow_full {
@@ -39,7 +49,7 @@ button:focus {
 }
 
 input:checked + div {
-  @apply border-darkColor;
+  @apply border-lightGrey;
 }
 input:checked + div svg {
   @apply block;
@@ -81,7 +91,7 @@ input[type="file"]::file-selector-button {
 }
 
 .custom__checkbox {
-  margin-bottom: 10px;
+  padding: 0.5em 0;
 }
 
 .custom__checkbox input {

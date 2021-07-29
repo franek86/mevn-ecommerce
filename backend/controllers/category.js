@@ -47,7 +47,7 @@ exports.createCategory = async (req, res) => {
 exports.updateCategory = async (req, res) => {
   const { category } = req.body;
   try {
-    const cat = await Category.findOneAndUpdate(req.params.id);
+    const cat = await Category.findByIdAndUpdate(req.params.id);
 
     if (cat) {
       cat.category = category;

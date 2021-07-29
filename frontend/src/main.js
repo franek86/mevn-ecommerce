@@ -32,7 +32,12 @@ import AdminEditProduct from "./components/admin/AdminProducts/AdminEditProduct"
 import AdminSingleProduct from "./components/admin/AdminProducts/AdminSingleProduct";
 
 import AdminCategory from "./components/admin/AdminCategory";
+
 import AdminBrands from "./components/admin/AdminBrands";
+import AdminBrandLists from "./components/admin/AdminBrands/AdminBrandLists";
+import AdminCreateBrand from "./components/admin/AdminBrands/AdminCreateBrand";
+import AdminEditBrand from "./components/admin/AdminBrands/AdminEditBrand";
+
 import AdminOrders from "./components/admin/AdminOrders";
 import AdminUsers from "./components/admin/AdminUsers";
 
@@ -217,10 +222,32 @@ const routes = [
       {
         path: "category",
         component: AdminCategory,
+        name: "AdminCategory",
       },
       {
         path: "brands",
         component: AdminBrands,
+        children: [
+          {
+            path: "",
+            component: AdminBrandLists,
+            name: AdminBrandLists,
+            meta: { breadcrumb: "Admin Brands" },
+          },
+
+          {
+            path: "create-brand",
+            component: AdminCreateBrand,
+            name: AdminCreateBrand,
+            meta: { breadcrumb: "Admin Create Brand" },
+          },
+          {
+            path: "edit-brand/:id",
+            component: AdminEditBrand,
+            name: AdminEditBrand,
+            meta: { breadcrumb: "Admin Edit Brand" },
+          },
+        ],
       },
       {
         path: "orders",

@@ -1,14 +1,14 @@
 <template>
   <div class="flex">
     <AdminNav />
-    <div class="w-full">
+    <main class="w-full">
       <AdminHeader />
       <div
         class=" bg-greyColor h-screen lg:transform lg:-translate-y-3 lg:rounded-l-xl "
       >
         <Admin />
       </div>
-    </div>
+    </main>
   </div>
 </template>
 

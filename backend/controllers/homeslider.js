@@ -1,4 +1,5 @@
 const HomeSlider = require("../models/HomeSlider");
+const fs = require("fs");
 
 // @description Get home sliders
 // @route GET / api/brands
@@ -38,16 +39,15 @@ exports.getSingleHomeSlider = async (req, res) => {
 // @route POST / api/slider
 // @acces Private/admin
 exports.createSlider = async (req, res) => {
-  const [{ path }] = req.files.sliderImage;
-
-  const { title, titleColor } = req.body;
+  const slide = req.body;
+  const imagePath = req.file.path;
+  slide.sliderImage = imagePath;
 
   try {
-    let slider = new HomeSlider();
-    slider.sliderImage = path;
-
-    slider.title = title;
-    slider.titleColor = titleColor;
+    let slider = new HomeSlider(slide);
+    // slider.sliderImage = path;
+    // slider.title = title;
+    // slider.titleColor = titleColor;
 
     await slider.save();
     res.status(200).json({
@@ -66,15 +66,27 @@ exports.createSlider = async (req, res) => {
 // @route PUT / api/slider/:id
 // @acces Private/admin
 exports.updateSlider = async (req, res) => {
-  const { title, titleColor } = req.body;
-  const [{ path }] = req.files.sliderImage;
-  try {
-    const slider = await HomeSlider.findByIdAndUpdate(req.params.id);
-    if (slider) {
-      slider.sliderImage = path;
-      slider.title = title;
-      slider.titleColor = titleColor;
+  const id = req.params.id;
+  const newSlide = req.body;
+  let newImage = "";
+  if (req.file) {
+    newImage = req.file.path;
+    try {
+      fs.unlinkSync("./uploads" + req.body.oldImage);
+    } catch (error) {
+      console.log(error);
     }
+  } else {
+    newImage = req.body.oldImage;
+  }
+
+  newSlide.sliderImage = newImage;
+
+  try {
+    const slider = await HomeSlider.findByIdAndUpdate(id, newSlide, {
+      new: true,
+    });
+
     const updateSlider = await slider.save();
     res.status(200).json({
       successMessage: `${updateSlider} updated`,

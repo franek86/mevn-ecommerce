@@ -105,9 +105,9 @@
             </div>
             <!-- choose categories -->
             <div v-if="activeTab === 'Categories'">
-              <p>Choose categories</p>
+              <p class="p-2">Choose categories</p>
               <div
-                class="p-3 mb-3 border border-solid border-darkColor bg-whiteColor"
+                class="p-3 mb-3 border border-solid border-lightGrey bg-whiteColor"
               >
                 <div
                   v-for="cat in categories"
@@ -125,9 +125,9 @@
             </div>
             <!-- choose brands -->
             <div v-if="activeTab === 'Brands'">
-              <p>Choose brands</p>
+              <p class="p-2">Choose brands</p>
               <div
-                class="p-3 mb-3 border border-solid border-darkColor bg-whiteColor"
+                class="px-3 py-4 border border-solid border-lightGrey bg-whiteColor"
               >
                 <div
                   v-for="brand in brands"

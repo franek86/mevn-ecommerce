@@ -41,9 +41,21 @@ exports.getBrandById = async (req, res) => {
 // @route POST / api/brands
 // @acces Private/admin
 exports.createBrands = async (req, res) => {
-  const { filename } = req.file;
-  const newBrand = new Brands(req.body);
+  const [{ path }] = req.files.brandLogo;
+
+  console.log(path);
+
+  const { category, title, subtitle, description } = req.body;
+
   try {
+    const newBrand = new Brands();
+    newBrand.brandLogo = path;
+
+    newBrand.category = category;
+    newBrand.title = title;
+    newBrand.subtitle = subtitle;
+    newBrand.description = description;
+
     const saveBrand = await newBrand.save();
     res.status(200).json({
       successMessage: `${saveBrand} added`,

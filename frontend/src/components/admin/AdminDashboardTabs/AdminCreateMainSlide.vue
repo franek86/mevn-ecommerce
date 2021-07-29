@@ -64,7 +64,7 @@
       </div>
 
       <button type="submit" class="btn__arrow btn__arrow_full">
-        Create slide
+        Add slide
       </button>
     </form>
   </div>

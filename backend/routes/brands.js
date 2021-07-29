@@ -21,7 +21,7 @@ router.post(
   "/",
   protect,
   admin,
-  upload.single("brandLogo"),
+  upload.fields([{ name: "brandLogo", maxCount: 1 }]),
   brandsController.createBrands
 );
 
