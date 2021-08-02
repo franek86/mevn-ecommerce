@@ -12,7 +12,7 @@ router.get("/", brandsController.getAllBrands);
 // @description Get single brand
 // @route GET / api/brands/:id
 // @acces Public
-router.get("/:id", brandsController.getBrandById);
+router.get("/:id", brandsController.getSingleBrand);
 
 // @description Create brands
 // @route POST / api/brands
@@ -21,14 +21,20 @@ router.post(
   "/",
   protect,
   admin,
-  upload.fields([{ name: "brandLogo", maxCount: 1 }]),
+  upload.single("brandLogo"),
   brandsController.createBrands
 );
 
 // @description Update brand
 // @route PUT / api/brands/:id
 // @acces Private/admin
-router.put("/:id", protect, admin, brandsController.updateBrand);
+router.put(
+  "/:id",
+  protect,
+  admin,
+  upload.single("brandLogo"),
+  brandsController.updateBrand
+);
 
 // @description Delete brand
 // @route DELETE / api/brands/:id

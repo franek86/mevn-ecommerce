@@ -114,7 +114,6 @@ export default {
     const selectedImage = ref(null);
     const chooseTitleColor = ref(false);
 
-    const image = ref("");
     const successMsg = ref("");
 
     const id = route.params.id;
@@ -155,7 +154,7 @@ export default {
     return {
       title,
       imageName,
-      image,
+
       selectedImage,
       onImageSelect,
       editSlide,

@@ -97,9 +97,10 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { getCurrentInstance } from "vue";
 
 import AdminTitle from "../AdminTitle.vue";
 import AdminCancelButton from "../AdminCancelButton.vue";
@@ -117,8 +118,9 @@ export default {
     const subtitle = ref("");
     const description = ref("");
     const selectedImage = ref(null);
-
     const imageName = ref("");
+
+    let toast = getCurrentInstance().ctx.$toast;
 
     const addBrand = () => {
       let data = new FormData();
@@ -128,6 +130,10 @@ export default {
       data.append("brandLogo", selectedImage.value);
 
       store.dispatch("brands/createBrand", data);
+
+      toast.success("Brand was posted successfully", {
+        position: "bottom-right",
+      });
       router.push("/admin/brands");
     };
 
@@ -136,16 +142,7 @@ export default {
       imageName.value = e.target.files[0].name;
     };
 
-    const categories = computed(() => {
-      return store.getters["categories/getAllCategories"];
-    });
-
-    onMounted(() => {
-      store.dispatch("categories/fetchAllCategories");
-    });
-
     return {
-      categories,
       addBrand,
       title,
       subtitle,

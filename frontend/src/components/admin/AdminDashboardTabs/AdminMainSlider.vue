@@ -139,7 +139,7 @@ export default {
     };
 
     const isLoading = computed(() => {
-      return store.getters["slider/getLoader"];
+      return store.getters["loader/getLoader"];
     });
 
     return {

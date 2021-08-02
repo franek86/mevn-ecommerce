@@ -3,7 +3,6 @@ import axios from "@/axios";
 const state = {
   sliders: [],
   slide: {},
-  loader: false,
 };
 
 const getters = {
@@ -13,10 +12,6 @@ const getters = {
 
   getSingleSlide(state) {
     return state.slide;
-  },
-
-  getLoader(state) {
-    return state.loader;
   },
 };
 
@@ -41,24 +36,20 @@ const mutations = {
     let sliders = state.sliders.filter((i) => i._id !== index);
     state.sliders = sliders;
   },
-
-  SET_LAODER(state, payload) {
-    state.loader = payload;
-  },
 };
 
 const actions = {
   async fetchSliders({ commit }) {
     try {
-      commit("SET_LAODER", true);
+      commit("loader/SET_LAODER", true, { root: true });
       let res = await axios.get("/slider");
       let data = res.data.slider;
       setTimeout(() => {
-        commit("SET_LAODER", false);
+        commit("loader/SET_LAODER", false, { root: true });
       }, 1000);
       commit("SET_SLIDERS", data);
     } catch (error) {
-      commit("SET_LAODER", false);
+      commit("loader/SET_LAODER", false, { root: true });
       console.log(error);
     }
   },

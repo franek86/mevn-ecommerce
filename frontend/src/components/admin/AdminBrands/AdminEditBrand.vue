@@ -13,9 +13,9 @@
               type="text"
               class="form__input"
               placeholder="&nbsp;"
-              v-model="title"
+              v-model="brandValues.title"
             />
-            <span class="form__label">Title</span>
+            <span class="form__label">{{ brandValues.title }}</span>
           </div>
           <!-- Subtitle -->
           <div class="flex flex-wrap">
@@ -25,9 +25,9 @@
                   type="text"
                   class="form__input"
                   placeholder="&nbsp;"
-                  v-model="subtitle"
+                  v-model="brandValues.subtitle"
                 />
-                <span class="form__label">Subtitle</span>
+                <span class="form__label">{{ brandValues.subtitle }}</span>
               </div>
             </div>
           </div>
@@ -38,9 +38,9 @@
               rows="6"
               class="form__input"
               placeholder="&nbsp;"
-              v-model="description"
+              v-model="brandValues.description"
             ></textarea>
-            <span class="form__label">Description</span>
+            <span class="form__label">{{ brandValues.description }}</span>
           </div>
         </div>
 
@@ -97,8 +97,9 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
 
 import AdminTitle from "../AdminTitle.vue";
 import AdminCancelButton from "../AdminCancelButton.vue";
@@ -110,22 +111,33 @@ export default {
 
   setup() {
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
 
     const title = ref("");
     const subtitle = ref("");
     const description = ref("");
     const selectedImage = ref(null);
-
     const imageName = ref("");
 
-    const addBrand = () => {
-      let data = new FormData();
-      data.append("title", title.value);
-      data.append("subtitle", subtitle.value);
-      data.append("description", description.value);
-      data.append("brandLogo", selectedImage.value);
+    const brandParams = route.params.id;
 
-      store.dispatch("brands/createBrand", data);
+    const editBrand = () => {
+      let data = new FormData();
+      data.append("title", brandValues.value.title);
+      data.append("subtitle", brandValues.value.subtitle);
+      data.append("description", brandValues.value.description);
+      data.append("brandLogo", selectedImage.value);
+      data.append("oldImage", brandValues.value.brandLogo);
+
+      store
+        .dispatch("brands/editBrand", data)
+        .then(() => {
+          router.push("/admin/brands");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     const onImageSelect = (e) => {
@@ -133,17 +145,17 @@ export default {
       imageName.value = e.target.files[0].name;
     };
 
-    const categories = computed(() => {
-      return store.getters["categories/getAllCategories"];
+    const brandValues = computed(() => {
+      return store.getters["brands/getSingleBrand"];
     });
 
     onMounted(() => {
-      store.dispatch("categories/fetchAllCategories");
+      store.dispatch("brands/fetchSingleBrand", brandParams);
     });
 
     return {
-      categories,
-      addBrand,
+      editBrand,
+      brandValues,
       title,
       subtitle,
       description,

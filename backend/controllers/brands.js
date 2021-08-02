@@ -21,13 +21,14 @@ exports.getAllBrands = async (req, res) => {
 // @description Get single brand
 // @route GET / api/brands/:id
 // @acces Public
-exports.getBrandById = async (req, res) => {
+exports.getSingleBrand = async (req, res) => {
+  let id = req.params.id;
   try {
-    const brand = await Brands.findById(req.params.id);
-    const { ...others } = brand._doc;
+    const brand = await Brands.findById(id);
+
     res.status(200).json({
       successMessage: "Get single brand success",
-      others,
+      brand,
     });
   } catch (error) {
     console.log("single brand error", error);
@@ -41,20 +42,12 @@ exports.getBrandById = async (req, res) => {
 // @route POST / api/brands
 // @acces Private/admin
 exports.createBrands = async (req, res) => {
-  const [{ path }] = req.files.brandLogo;
-
-  console.log(path);
-
-  const { category, title, subtitle, description } = req.body;
+  const imagePath = req.file.path;
+  const brand = req.body;
+  brand.brandLogo = imagePath;
 
   try {
-    const newBrand = new Brands();
-    newBrand.brandLogo = path;
-
-    newBrand.category = category;
-    newBrand.title = title;
-    newBrand.subtitle = subtitle;
-    newBrand.description = description;
+    const newBrand = new Brands(brand);
 
     const saveBrand = await newBrand.save();
     res.status(200).json({
@@ -73,17 +66,25 @@ exports.createBrands = async (req, res) => {
 // @route PUT / api/brands/:id
 // @acces Private/admin
 exports.updateBrand = async (req, res) => {
-  const { title, subtitle, description, logo, category } = req.body;
-  try {
-    const brand = await Brands.findOneAndUpdate(req.params.id);
+  const id = req.params.id;
+  const newBrand = req.body;
 
-    if (brand) {
-      brand.title = title;
-      brand.subtitle = subtitle;
-      brand.description = description;
-      brand.category = category;
-      brand.logo = logo;
+  let newImage = "";
+  if (req.file) {
+    newImage = req.file.path;
+    try {
+      fs.unlinkSync("./uploads" + req.body.oldImage);
+    } catch (error) {
+      console.log(error);
     }
+  } else {
+    newImage = req.body.oldImage;
+  }
+
+  newBrand.brandLogo = newImage;
+  try {
+    const brand = await Brands.findByIdAndUpdate(id, newBrand, { new: true });
+
     const updateBrand = await brand.save();
     res.status(200).json({
       successMessage: `${updateBrand} added`,

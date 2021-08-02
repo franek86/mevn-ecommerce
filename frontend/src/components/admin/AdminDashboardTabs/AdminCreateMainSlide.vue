@@ -74,6 +74,7 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { getCurrentInstance } from "vue";
 
 import AdminCancelButton from "../AdminCancelButton.vue";
 
@@ -91,6 +92,7 @@ export default {
     const chooseTitleColor = ref(false);
 
     const successMsg = ref("");
+    let toast = getCurrentInstance().ctx.$toast;
 
     const createSlide = () => {
       let data = new FormData();
@@ -101,7 +103,9 @@ export default {
       store
         .dispatch("slider/createSlide", data)
         .then(() => {
-          successMsg.value = "Created";
+          toast.success("Slider was posted successfully", {
+            position: "bottom-right",
+          });
 
           setTimeout(() => {
             router.push("/admin/dashboard/sliders");

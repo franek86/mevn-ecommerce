@@ -2,7 +2,7 @@ const HomeSlider = require("../models/HomeSlider");
 const fs = require("fs");
 
 // @description Get home sliders
-// @route GET / api/brands
+// @route GET / api/slider
 // @acces Public
 exports.getHomeSlider = async (req, res) => {
   try {
@@ -19,6 +19,9 @@ exports.getHomeSlider = async (req, res) => {
   }
 };
 
+// @description Get single slider
+// @route GET / api/slider/:id
+// @acces Public
 exports.getSingleHomeSlider = async (req, res) => {
   let id = req.params.id;
   try {
@@ -35,7 +38,7 @@ exports.getSingleHomeSlider = async (req, res) => {
   }
 };
 
-// @description Create product
+// @description Create slider
 // @route POST / api/slider
 // @acces Private/admin
 exports.createSlider = async (req, res) => {
@@ -45,9 +48,6 @@ exports.createSlider = async (req, res) => {
 
   try {
     let slider = new HomeSlider(slide);
-    // slider.sliderImage = path;
-    // slider.title = title;
-    // slider.titleColor = titleColor;
 
     await slider.save();
     res.status(200).json({
@@ -68,6 +68,7 @@ exports.createSlider = async (req, res) => {
 exports.updateSlider = async (req, res) => {
   const id = req.params.id;
   const newSlide = req.body;
+
   let newImage = "";
   if (req.file) {
     newImage = req.file.path;

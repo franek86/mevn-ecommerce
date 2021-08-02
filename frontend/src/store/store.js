@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 import user from "./modules/user";
 import nav from "./modules/nav";
+import loader from "./modules/loader";
 import products from "./modules/products";
 import slider from "./modules/slider";
 import categories from "./modules/categories";
@@ -12,6 +13,7 @@ const store = createStore({
   modules: {
     user,
     nav,
+    loader,
     products,
     slider,
     categories,

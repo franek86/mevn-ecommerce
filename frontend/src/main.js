@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import store from "./store/store";
 import axios from "axios";
+import Toaster from "@meforma/vue-toaster";
 
 //Pages imports
 import Home from "./pages/Home";
@@ -301,6 +302,7 @@ router.beforeEach((to, from, next) => {
 createApp(App)
   .use(router)
   .use(store)
+  .use(Toaster)
   .component("default-layout", defaultLayout)
   .component("admin-layout", adminLayout)
 
