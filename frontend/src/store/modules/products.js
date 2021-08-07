@@ -43,14 +43,16 @@ const actions = {
 
   async createProduct({ commit }, formData) {
     try {
+      commit("loader/SET_LAODER", true, { root: true });
       let res = await axios.post("/products", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       let data = res.data.product;
-      console.log(data);
+
       commit("SET_PRODUCTS", data);
+      commit("loader/SET_LAODER", false, { root: true });
     } catch (error) {
       console.log(error);
     }

@@ -50,29 +50,29 @@
             <!-- upload image -->
             <div>
               <div class="flex flex-col">
+                <div class="flex h-full" v-if="!selectedImage">
+                  <p>Edit brand logo</p>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="#242424"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
                 <label
                   for="upload_image"
-                  class="flex justify-center items-center bg-yellowLight py-3 px-3 text-center h-32 mb-8 border border-dashed cursor-pointer transition-all hover:bg-whiteColor"
+                  class="flex bg-70% bg-center bg-no-repeat bg-whiteColor justify-center items-center py-3 px-3 text-center h-32 mb-8 border border-dashed cursor-pointer transition-all hover:bg-whiteColor"
+                  :style="{
+                    backgroundImage: `url(http://localhost:5000/${brandValues.brandLogo})`,
+                  }"
                 >
-                  <div
-                    class="flex justify-center items-center h-full"
-                    v-if="!selectedImage"
-                  >
-                    <p>Edit brand logo</p>
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="#242424"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
                   <p else>{{ imageName }}</p>
 
                   <input
@@ -100,6 +100,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import { getCurrentInstance } from "vue";
 
 import AdminTitle from "../AdminTitle.vue";
 import AdminCancelButton from "../AdminCancelButton.vue";
@@ -120,6 +121,8 @@ export default {
     const selectedImage = ref(null);
     const imageName = ref("");
 
+    let toast = getCurrentInstance().ctx.$toast;
+
     const brandParams = route.params.id;
 
     const editBrand = () => {
@@ -133,6 +136,9 @@ export default {
       store
         .dispatch("brands/editBrand", data)
         .then(() => {
+          toast.success("Brand was updated successfully", {
+            position: "bottom-right",
+          });
           router.push("/admin/brands");
         })
         .catch((error) => {

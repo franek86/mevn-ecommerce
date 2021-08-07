@@ -55,7 +55,6 @@ const actions = {
 
   async createBrand({ commit }, formData) {
     try {
-      commit("loader/SET_LAODER", true, { root: true });
       let res = await axios.post("/brands", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -64,7 +63,6 @@ const actions = {
 
       let data = res.data.saveBrand;
       commit("SET_CREATE_BRAND", data);
-      commit("loader/SET_LAODER", false, { root: true });
     } catch (error) {
       console.log(error); //TO DO: error message
     }

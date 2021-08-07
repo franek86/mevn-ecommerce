@@ -23,8 +23,6 @@
       </router-link>
     </header>
 
-    <p v-if="successMsg">{{ successMsg }}</p>
-
     <div class="lg:w-1/2">
       <form @submit.prevent="editSlide" enctype="multipart/form-data">
         <div class="flex flex-col">
@@ -103,6 +101,7 @@
 import { useRouter, useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { getCurrentInstance } from "vue";
 export default {
   setup() {
     const store = useStore();
@@ -113,8 +112,7 @@ export default {
     const imageName = ref("");
     const selectedImage = ref(null);
     const chooseTitleColor = ref(false);
-
-    const successMsg = ref("");
+    let toast = getCurrentInstance().ctx.$toast;
 
     const id = route.params.id;
 
@@ -129,7 +127,9 @@ export default {
       store
         .dispatch("slider/editSlide", data)
         .then(() => {
-          successMsg.value = "Updated";
+          toast.success("Brand was updated successfully", {
+            position: "bottom-right",
+          });
 
           setTimeout(() => {
             router.push("/admin/dashboard/sliders");
@@ -160,7 +160,6 @@ export default {
       editSlide,
       chooseTitleColor,
       slideValues,
-      successMsg,
     };
   },
 };

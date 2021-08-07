@@ -44,6 +44,10 @@ textarea:focus-visible {
   @apply bg-lightGreen px-4 py-2 text-whiteColor uppercase text-xs rounded-2xl hover:opacity-70;
 }
 
+.btn__delete {
+  @apply bg-redColor px-4 py-2 text-whiteColor uppercase text-xs rounded-2xl hover:opacity-70;
+}
+
 .btn__arrow_full {
   width: 100%;
 }
@@ -134,4 +138,16 @@ input[type="file"]::file-selector-button {
   border: solid #242424;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

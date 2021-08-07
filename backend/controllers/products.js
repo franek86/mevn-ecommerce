@@ -45,7 +45,13 @@ exports.getProductById = async (req, res) => {
 // @route POST / api/products
 // @acces Private/admin
 exports.createProduct = async (req, res) => {
-  const [{ filename }] = req.files.productImage;
+  let imagesArray = [];
+  req.files.forEach((e) => {
+    const image = {
+      imagePath: e.path,
+    };
+    imagesArray.push(image);
+  });
 
   const {
     productCategory,
@@ -57,13 +63,12 @@ exports.createProduct = async (req, res) => {
     size,
     material,
     countryOrigin,
-    quantity,
     inStock,
   } = req.body;
 
   try {
     let product = new Products();
-    product.productImage = filename;
+    product.productImages = imagesArray;
 
     product.productCategory = productCategory;
     product.productBrand = productBrand;
@@ -74,7 +79,6 @@ exports.createProduct = async (req, res) => {
     product.size = size;
     product.material = material;
     product.countryOrigin = countryOrigin;
-    product.quantity = quantity;
     product.inStock = inStock;
 
     await product.save();
@@ -104,7 +108,6 @@ exports.updateProduct = async (req, res) => {
     size,
     material,
     countryOrigin,
-    quantity,
     inStock,
   } = req.body;
   try {
@@ -119,7 +122,6 @@ exports.updateProduct = async (req, res) => {
       product.size = size;
       product.material = material;
       product.countryOrigin = countryOrigin;
-      product.quantity = quantity;
       product.inStock = inStock;
     }
     const updateProduct = await product.save();

@@ -21,11 +21,7 @@ router.post(
   "/",
   protect,
   admin,
-
-  upload.fields([
-    { name: "productImage", maxCount: 1 },
-    { name: "productImages", maxCount: 6 },
-  ]),
+  upload.array("productImages", 6),
   productsController.createProduct
 );
 

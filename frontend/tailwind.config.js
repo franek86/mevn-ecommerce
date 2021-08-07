@@ -23,6 +23,12 @@ module.exports = {
       lightGrey: "#eaeaea",
       redColor: "#EF4444",
     },
+    backgroundSize: {
+      auto: "auto",
+      cover: "cover",
+      contain: "contain",
+      "70%": "70%",
+    },
 
     container: {
       padding: "20px",

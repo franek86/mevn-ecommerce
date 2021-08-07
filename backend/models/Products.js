@@ -26,12 +26,7 @@ const ProductsSchema = new mongoose.Schema(
       required: true,
     },
 
-    productImages: [{ type: String }],
-
-    productImage: {
-      type: String,
-      required: true,
-    },
+    productImages: [{ type: Array }],
 
     size: [
       {
@@ -48,11 +43,6 @@ const ProductsSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    quantity: {
       type: Number,
       required: true,
       default: 0,
